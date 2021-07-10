@@ -16,7 +16,7 @@ const styles = StyleSheet.create({
     },
     headerText: {
         fontFamily: "TitilliumWeb-Bold",
-        fontSize: 20,
+        fontSize: 20 * 1.25,
         color: "#ffffff",
         letterSpacing: 0
     }
