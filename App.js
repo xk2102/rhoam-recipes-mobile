@@ -1,11 +1,14 @@
+// app.js
+
 import React, {useState} from 'react';
-import Home from './screens/Home';
-import About from './screens/About';
-import {StyleSheet, View, Text} from 'react-native'
+import { NavigationContainer } from '@react-navigation/native';
+import { HomeStack } from './navigation/HomeStack';
+import { AboutStack } from './navigation/AboutStack';
+import DrawerNavigator from "./navigation/DrawerNavigator";
+import BottomTabNavigator from "./navigation/TabNavigator";
+
 import AppLoading from 'expo-app-loading';
 import * as Font from 'expo-font';
-import { globalStyles } from './styles/global';
-import Navigator from './routes/HomeStack';
 
 const getFonts = () => Font.loadAsync({
   // we can use these anywhere in the app
@@ -13,17 +16,15 @@ const getFonts = () => Font.loadAsync({
   "TitilliumWeb-Regular": require("./assets/fonts/TitilliumWeb-Regular.ttf")
 })
 
-export default function App() {
+const App = () => {
   const [fontsLoaded, setFontsLoaded] = useState(false);
 
   if(fontsLoaded){
     return (
-      <Navigator />
-      // <View style={globalStyles.container}>
-      //   <Text style={globalStyles.titleText}>App.js title..!</Text>
-      //       <Text style={globalStyles.contentText}>App.js container..!</Text>
-      //   <Home />
-      // </View>
+      <NavigationContainer>
+        {/* <DrawerNavigator /> */}
+        <BottomTabNavigator />
+      </NavigationContainer>
     )
   } else {
     return (
@@ -36,4 +37,6 @@ export default function App() {
   }
   
 }
+
+export default App;
 

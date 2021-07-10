@@ -1,19 +1,17 @@
-import React from 'react';
-import {StyleSheet, View, Text, Button} from 'react-native'
-import { globalStyles } from '../styles/global';
+// ./screens/Home.js
 
-export default function Home({navigation}) {
+import React from "react";
+import { View, Button, Text, StyleSheet } from "react-native";
+import { globalStyles } from "../styles/global";
 
-    const onPress_goToLogIn = () => {
-        navigation.navigate("LogIn");
-        // navigation.push("LogIn");
-    }
-    return (
-        <View style={globalStyles.container}>
-            <Text style={globalStyles.titleText}>Home screen title..!</Text>
-            <Text style={globalStyles.contentText}>Home screen container..!</Text>
-            <Button title="go to LogIn" onPress={onPress_goToLogIn}/>
-        </View>
-    )
-}
+const Home = ({ navigation }) => {
+  return (
+    <View style={globalStyles.container}>
+        <Text style={globalStyles.titleText}>Home screen title..!</Text>
+        <Text style={globalStyles.contentText}>Home screen container..!</Text>
+        <Button title="Go to LogIn Screen" onPress={() => navigation.navigate('LogIn')}/>
+    </View>
+  );
+};
 
+export default Home;

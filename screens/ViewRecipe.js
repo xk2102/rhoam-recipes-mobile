@@ -1,13 +1,16 @@
-import React from 'react';
-import {StyleSheet, View, Text} from 'react-native';
-import { globalStyles } from '../styles/global';
+// ./screens/ViewRecipe.js
 
-export default function ViewRecipe() {
-    return (
-        <View style={globalStyles.container}>
-            <Text style={globalStyles.titleText}>ViewRecipe title..!</Text>
-            <Text style={globalStyles.contentText}>ViewRecipe container..!</Text>
-        </View>
-    )
-}
+import React from "react";
+import { View, Button, Text, StyleSheet } from "react-native";
+import { globalStyles } from "../styles/global";
 
+const ViewRecipe = () => {
+  return (
+    <View style={globalStyles.container}>
+        <Text style={globalStyles.titleText}>ViewRecipe screen title..!</Text>
+        <Text style={globalStyles.contentText}>ViewRecipe screen container..!</Text>
+    </View>
+  );
+};
+
+export default ViewRecipe;
