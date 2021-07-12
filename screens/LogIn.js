@@ -6,6 +6,7 @@ import { globalStyles } from "../styles/global";
 import CustomButton from "../components/CustomButton";
 import { logInUser } from "../utils/apiCalls";
 import { Settings } from "../contexts/Settings";
+import ErrorText from "../components/ErrorText";
 
 const LogIn = ({ navigation }) => {
   // // ----------------------------------------------------------------
@@ -81,7 +82,7 @@ const LogIn = ({ navigation }) => {
         }));
         setTimeout(function () {
           navigation.goBack();
-        }, 3000);
+        }, 2000);
       })
       .catch((error) => {
         console.log(`logInUser.js - apiResponse_logInUser - promise error: ${error}`);
@@ -105,11 +106,11 @@ const LogIn = ({ navigation }) => {
         <TextInput style={styles.fieldInput} placeholder="demo" onChangeText={(value) => handleCredentials(value, "password")}></TextInput>
       </View>
 
-      {/* {credentials.logInError === "Log in SUCCESS..! You will be redirected to home screen..!" ? (
-        <Text style={(globalStyles.titleText, { color: "#66ffb3" })}>{credentials.logInError}</Text>
+      {credentials.logInError === "Log in SUCCESS..! You will be redirected to home screen..!" ? (
+        <ErrorText type="green" text={credentials.logInError}></ErrorText>
       ) : (
-        <Text style={(globalStyles.titleText, { color: "#ff6666" })}>{credentials.logInError}</Text>
-      )} */}
+        <ErrorText type="red" text={credentials.logInError}></ErrorText>
+      )}
 
       <TouchableOpacity style={globalStyles.customButtonView} onPress={onSubmit_logInUser}>
         <Text style={globalStyles.customButtonText}>Submit</Text>
