@@ -11,6 +11,7 @@ const Home = ({ navigation }) => {
   const { apiUrl, userCredentials } = useContext(Settings);
   return (
     <View style={globalStyles.container}>
+      {userCredentials.isLoggedIn && <Text style={[globalStyles.contentText, { textAlign: "right" }]}>{`[Logged in as: ${userCredentials.userName}]`}</Text>}
       <Text style={globalStyles.titleText}>Welcome..!</Text>
       <Text style={globalStyles.contentText}>Create a recipe..! Then, view it for production..!</Text>
       <Text style={globalStyles.contentText}>You can modify the ingredient quantities based on a single ingredient or the total weight of all ingredients!</Text>

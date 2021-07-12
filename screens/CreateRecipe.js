@@ -5,6 +5,9 @@ import { View, Button, Text, StyleSheet, TextInput, TouchableOpacity, ScrollView
 import { globalStyles } from "../styles/global";
 import { Settings } from "../contexts/Settings";
 import ErrorText from "../components/ErrorText";
+import { resetRecipe } from "../utils/logicFunctions";
+import { logOutUser } from "../utils/userFunctions";
+import { postRecipe } from "../utils/apiCalls";
 
 const CreateRecipe = () => {
   // // ----------------------------------------------------------------
@@ -36,7 +39,7 @@ const CreateRecipe = () => {
     console.log(recipe);
   }, [recipe]);
 
-  const [error, setError] = useState();
+  const [error, setError] = useState("");
   // // ----------------------------------------------------------------
   // // -- FORM HANDLERS------------------------------------------------
   // // ----------------------------------------------------------------
@@ -110,30 +113,122 @@ const CreateRecipe = () => {
     }
   }
   // // ----------------------------------------------------------------
+  // // -- LOGIC FUNCTIONS ---------------------------------------------
+  // // ----------------------------------------------------------------
+  const onPress_resetRecipe = () => {
+    setRecipe(resetRecipe);
+    setError("");
+  };
+
+  const onPress_createRecipe = () => {
+    // VALIDATE
+    let isValidated = (function () {
+      let _error = "";
+      if (recipe.name === "") {
+        _error = "Invalid NAME! Should not be empty..";
+      }
+      if (recipe.prepTime === 0) {
+        _error = "Invalid PREP TIME! Should not be zero..";
+      }
+      if (recipe.cookTime === 0) {
+        _error = "Invalid COOK TIME! Should not be zero..";
+      }
+      for (let ingredient of recipe.listOfIngredients) {
+        if (ingredient.name === "") {
+          _error = "Invalid INGREDIENT NAME! Should not be empty..";
+        }
+        if (ingredient.quantity === 0) {
+          _error = "Invalid INGREDIENT QUANTITY! Should not be zero..";
+        }
+      }
+      for (let step of recipe.listOfSteps) {
+        if (step.description === "") {
+          _error = "Invalid STEP DESCRIPTION! Should not be empty..";
+        }
+      }
+
+      if (_error === "") {
+        console.log("createRecipe.js - isValidated() - validated!");
+        return true;
+      } else {
+        setError(_error);
+        return false;
+      }
+    })();
+
+    if (isValidated) {
+      const r = {
+        ...recipe,
+        author: userCredentials.userName,
+      };
+
+      apiResponse_postRecipe(r);
+      setRecipe(resetRecipe);
+    } // is validated
+  }; // onSubmit_createRecipe
+
+  function tokenExpired_logOutUser() {
+    setUserCredentials(logOutUser);
+  }
+
+  // // ----------------------------------------------------------------
+  // // -- API RESPONSES -----------------------------------------------
+  // // ----------------------------------------------------------------
+  const apiResponse_postRecipe = (r) => {
+    const fetchPromise = postRecipe(apiUrl, userCredentials.token, r);
+    fetchPromise
+      .then((response) => {
+        if (response.status === 500) {
+          console.log("createRecipe.js - apiResponse_postRecipe - status 500: internal server error..!");
+          setError("ERROR: internal server error..!");
+        }
+        if (response.status === 201) {
+          console.log("createRecipe.js - apiResponse_postRecipe - status 201: recipe created and saved!");
+          return response.json();
+        }
+        if (response.status === 401) {
+          console.log("createRecipe.js - apiResponse_postRecipe - status 401: auth error, token probably expired!");
+          tokenExpired_logOutUser();
+          return response.json();
+        }
+      })
+      .catch((error) => {
+        console.log(`createRecipe.js - apiResponse_postRecipe - promise error: ${error}`);
+      });
+  };
+
+  // // ----------------------------------------------------------------
   // // -- RETURN -------------------------------------------------------
   // // ----------------------------------------------------------------
   return (
     <View style={globalStyles.container}>
       <ScrollView>
+        {userCredentials.isLoggedIn && <Text style={[globalStyles.contentText, { textAlign: "right" }]}>{`[Logged in as: ${userCredentials.userName}]`}</Text>}
+
         <Text style={globalStyles.titleText}>Create a recipe..!</Text>
-        <Text style={globalStyles.contentText}>Remember, you must be logged in to save a new recipe..!</Text>
-        <Text style={globalStyles.contentText}>Follow this link to log in..!</Text>
+
+        {!userCredentials.isLoggedIn && (
+          <>
+            <Text style={globalStyles.contentText}>Remember, you must be logged in to save a new recipe..!</Text>
+            <Text style={globalStyles.contentText}>Follow this link to log in..!</Text>
+          </>
+        )}
 
         <View style={styles.field}>
           <Text style={styles.fieldLabel}>Name: </Text>
-          <TextInput style={styles.fieldInput}></TextInput>
+          <TextInput style={styles.fieldInput} value={recipe.name} onChangeText={(value) => handleRecipeFields(value, "name")}></TextInput>
         </View>
         <View style={styles.field}>
           <Text style={styles.fieldLabel}>Info: </Text>
-          <TextInput style={styles.fieldInput}></TextInput>
+          <TextInput style={styles.fieldInput} value={recipe.info} onChangeText={(value) => handleRecipeFields(value, "info")}></TextInput>
         </View>
         <View style={styles.field}>
           <Text style={styles.fieldLabel}>Prep time (mins): </Text>
-          <TextInput style={styles.fieldInput}></TextInput>
+          <TextInput style={styles.fieldInput} value={recipe.prepTime} onChangeText={(value) => handleRecipeFields(value, "prepTime")} keyboardType="numeric"></TextInput>
         </View>
         <View style={styles.field}>
           <Text style={styles.fieldLabel}>Cook time (mins): </Text>
-          <TextInput style={styles.fieldInput}></TextInput>
+          <TextInput style={styles.fieldInput} value={recipe.cookTime} onChangeText={(value) => handleRecipeFields(value, "cookTime")} keyboardType="numeric"></TextInput>
         </View>
         <View style={styles.field}>
           <Text style={styles.fieldLabel}>Ingredients: </Text>
@@ -143,8 +238,12 @@ const CreateRecipe = () => {
             <View style={styles.field} key={index}>
               <Text style={[styles.fieldLabel, { width: "10%" }]}>{index + 1 + `) `}</Text>
               <TextInput value={ingredient.name} style={[styles.fieldInput, { width: "50%" }]} onChangeText={(value) => handleIngredient(value, index, "name")}></TextInput>
-              <TextInput value={ingredient.quantity} style={[styles.fieldInput, { width: "20%" }]} onChangeText={(value) => handleIngredient(value, index, "quantity")}></TextInput>
-              <TextInput value={"grams"} style={[styles.fieldInput, { width: "20%" }]}></TextInput>
+              <TextInput
+                value={ingredient.quantity}
+                style={[styles.fieldInput, { width: "20%" }]}
+                onChangeText={(value) => handleIngredient(value, index, "quantity")}
+                keyboardType="numeric"></TextInput>
+              <TextInput value={"grams"} style={[styles.fieldInput, { width: "20%" }]} editable={false}></TextInput>
             </View>
           ))}
         <View style={styles.field}>
@@ -159,10 +258,15 @@ const CreateRecipe = () => {
           <Text style={styles.fieldLabel}>Steps: </Text>
         </View>
         {recipe.listOfSteps.length > 0 &&
-          recipe.listOfSteps.flatMap((ingredient, index) => (
+          recipe.listOfSteps.flatMap((step, index) => (
             <View style={styles.field} key={index}>
               <Text style={[styles.fieldLabel, { width: "10%" }]}>{index + 1 + `) `}</Text>
-              <TextInput style={[styles.fieldInput, { width: "90%" }]}></TextInput>
+              <TextInput
+                value={step.description}
+                style={[styles.fieldInput, { width: "90%" }]}
+                onChangeText={(value) => {
+                  handleStepDescription(value, index);
+                }}></TextInput>
             </View>
           ))}
         <View style={styles.field}>
@@ -173,10 +277,11 @@ const CreateRecipe = () => {
             <Text style={globalStyles.customButtonText}>Remove step</Text>
           </TouchableOpacity>
         </View>
-        <TouchableOpacity style={globalStyles.customButtonView}>
+        <ErrorText type="red" text={error}></ErrorText>
+        <TouchableOpacity style={globalStyles.customButtonView} onPress={onPress_createRecipe}>
           <Text style={globalStyles.customButtonText}>Create</Text>
         </TouchableOpacity>
-        <TouchableOpacity style={globalStyles.customButtonView}>
+        <TouchableOpacity style={globalStyles.customButtonView} onPress={onPress_resetRecipe}>
           <Text style={globalStyles.customButtonText}>Reset</Text>
         </TouchableOpacity>
       </ScrollView>
@@ -201,7 +306,7 @@ const styles = StyleSheet.create({
     padding: 10,
     fontFamily: "TitilliumWeb-Bold",
     fontSize: 20 * 0.75,
-    color: "#e0d4d1",
+    color: "#fff",
   },
   fieldInput: {
     // borderColor: "#fff",
