@@ -5,9 +5,10 @@ import { View, Text, StyleSheet, ScrollView, TouchableOpacity } from "react-nati
 import { globalStyles } from "../styles/global";
 import CustomButton from "../components/CustomButton";
 import { Settings } from "../contexts/Settings";
+import { useReducer } from "react/cjs/react.production.min";
 
 const Home = ({ navigation }) => {
-  const { apiUrl } = useContext(Settings);
+  const { apiUrl, userCredentials } = useContext(Settings);
   return (
     <View style={globalStyles.container}>
       <Text style={globalStyles.titleText}>Welcome..!</Text>
@@ -15,8 +16,14 @@ const Home = ({ navigation }) => {
       <Text style={globalStyles.contentText}>You can modify the ingredient quantities based on a single ingredient or the total weight of all ingredients!</Text>
       <Text style={globalStyles.contentText}>Good luck..!</Text>
 
-      <CustomButton text="LogIn" navigation={navigation}></CustomButton>
-      <CustomButton text="Register" navigation={navigation}></CustomButton>
+      {!userCredentials.isLoggedIn ? (
+        <>
+          <CustomButton text="LogIn" navigation={navigation}></CustomButton>
+          <CustomButton text="Register" navigation={navigation}></CustomButton>
+        </>
+      ) : (
+        <></>
+      )}
     </View>
   );
 };

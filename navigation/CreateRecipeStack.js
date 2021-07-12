@@ -11,7 +11,7 @@ const Stack = createStackNavigator();
 const CreateRecipeStack = () => {
   return (
     <Stack.Navigator>
-      <Stack.Screen name="CreateRecipe" component={CreateRecipe} options={{ headerStyle: { backgroundColor: "#7a5b52" }, headerTitle: () => <Header /> }} />
+      <Stack.Screen name="CreateRecipe" component={CreateRecipe} options={{ headerStyle: { backgroundColor: "#5e4740" }, headerTitle: () => <Header /> }} />
     </Stack.Navigator>
   );
 };
