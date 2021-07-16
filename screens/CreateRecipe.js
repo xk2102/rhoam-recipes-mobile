@@ -35,9 +35,9 @@ const CreateRecipe = () => {
     ],
     id: "",
   });
-  useEffect(() => {
-    console.log(recipe);
-  }, [recipe]);
+  // useEffect(() => {
+  //   console.log(recipe);
+  // }, [recipe]);
 
   const [error, setError] = useState("");
   // // ----------------------------------------------------------------

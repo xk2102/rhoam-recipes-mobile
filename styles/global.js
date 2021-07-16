@@ -20,8 +20,8 @@ export const globalStyles = StyleSheet.create({
     fontFamily: "TitilliumWeb-Regular",
     fontSize: 20 * 0.75,
     color: "#ffffff",
-    marginTop: 10,
-    marginBottom: 10,
+    marginTop: 5,
+    marginBottom: 5,
   },
   tabBarLabel: {
     fontFamily: "TitilliumWeb-Bold",
