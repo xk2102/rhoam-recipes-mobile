@@ -4,7 +4,7 @@ import React from "react";
 
 import { createDrawerNavigator } from "@react-navigation/drawer";
 
-import { AboutStack } from "./AboutStack";
+import { SettingsStack } from "./SettingsStack";
 import { HomeStack } from "./HomeStack";
 
 const Drawer = createDrawerNavigator();
@@ -13,9 +13,9 @@ const DrawerNavigator = () => {
   return (
     <Drawer.Navigator>
       <Drawer.Screen name="Home" component={HomeStack} />
-      <Drawer.Screen name="About" component={AboutStack} />
+      <Drawer.Screen name="Settings" component={SettingsStack} />
     </Drawer.Navigator>
   );
-}
+};
 
 export default DrawerNavigator;

@@ -5,7 +5,7 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { Text } from "react-native";
 
 import { HomeStack } from "./HomeStack";
-import { AboutStack } from "./AboutStack";
+import { SettingsStack } from "./SettingsStack";
 import { CreateRecipeStack } from "./CreateRecipeStack";
 import { ViewRecipesStack } from "./ViewRecipesStack";
 import { AntDesign } from "@expo/vector-icons";
@@ -40,9 +40,9 @@ const BottomTabNavigator = () => {
         options={{ tabBarLabel: () => <Text style={globalStyles.tabBarLabel}>ViewRecipes</Text>, tabBarIcon: () => <Ionicons name="list-outline" size={24} color="white" /> }}
       />
       <Tab.Screen
-        name="About"
-        component={AboutStack}
-        options={{ tabBarLabel: () => <Text style={globalStyles.tabBarLabel}>About</Text>, tabBarIcon: () => <AntDesign name="info" size={24} color="white" /> }}
+        name="Settings"
+        component={SettingsStack}
+        options={{ tabBarLabel: () => <Text style={globalStyles.tabBarLabel}>Settings</Text>, tabBarIcon: () => <Ionicons name="settings-outline" size={24} color="white" /> }}
       />
     </Tab.Navigator>
   );

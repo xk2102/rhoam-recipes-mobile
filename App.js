@@ -2,8 +2,6 @@
 
 import React, { useState } from "react";
 import { NavigationContainer } from "@react-navigation/native";
-import { HomeStack } from "./navigation/HomeStack";
-import { AboutStack } from "./navigation/AboutStack";
 import DrawerNavigator from "./navigation/DrawerNavigator";
 import BottomTabNavigator from "./navigation/TabNavigator";
 import SettingsProvider from "./contexts/Settings";

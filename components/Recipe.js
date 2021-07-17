@@ -1,8 +1,22 @@
-import React from "react";
-import { View, Text, StyleSheet } from "react-native";
+import React, { useState, useEffect } from "react";
+import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
 import { globalStyles } from "../styles/global";
 
-const Recipe = ({ recipe }) => {
+const Recipe = ({ recipe, multiplier }) => {
+  // // ----------------------------------------------------------------
+  // // -- STATE -------------------------------------------------------
+  // // ----------------------------------------------------------------
+  const [totalIngredientSum, setTotalIngredientSum] = useState(0);
+  useEffect(() => {
+    setTotalIngredientSum(() => {
+      var total = 0;
+      for (var a of recipe.listOfIngredients) {
+        total += a.quantity;
+      }
+      return total;
+    });
+  }, [recipe]);
+
   return (
     <View>
       <Text style={globalStyles.contentText}>
@@ -28,6 +42,12 @@ const Recipe = ({ recipe }) => {
       {recipe.listOfIngredients.map((ingredient, index) => (
         <Text style={globalStyles.contentText} key={index}>{`${index + 1}. ${ingredient.name} (${ingredient.quantity} grams)`}</Text>
       ))}
+
+      <Text style={globalStyles.contentText}>
+        <Text style={globalStyles.titleText}>Ingredients total sum: </Text>
+        {`${totalIngredientSum} grams`}
+      </Text>
+
       <Text style={globalStyles.titleText}>Steps:</Text>
       {recipe.listOfSteps.map((step, index) => (
         <Text style={globalStyles.contentText} key={index}>{`${index + 1}. ${step.description}`}</Text>

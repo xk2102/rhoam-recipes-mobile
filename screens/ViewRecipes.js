@@ -16,7 +16,14 @@ const ViewRecipes = ({ navigation }) => {
       <ScrollView>
         {listOfRecipes.length > 0 &&
           listOfRecipes.map((recipe, index) => (
-            <TouchableOpacity style={styles.cardView} key={index} onPress={() => navigation.navigate("RecipeDetails", { recipe: recipe })}>
+            <TouchableOpacity
+              style={styles.cardView}
+              key={index}
+              onPress={() => {
+                navigation.navigate("RecipeDetails", {
+                  recipe: recipe,
+                });
+              }}>
               <Text style={styles.cardText}>{recipe.name}</Text>
             </TouchableOpacity>
           ))}
