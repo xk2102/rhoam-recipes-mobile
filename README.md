@@ -18,8 +18,8 @@ When you select the recipe in the "View recipes" screen, you can choose to re-ca
 1. a specific ingredient
 2. the total sum of ingredients.
 
-<img src="pics/2.jpg" />
-<img src="pics/3.jpg" />
-<img src="pics/4.jpg" />
-<img src="pics/5.jpg" />
-<img src="pics/6.jpg" />
+<img src="pics/2.jpg" width="50%" />
+<img src="pics/3.jpg" width="50%" />
+<img src="pics/4.jpg" width="50%" />
+<img src="pics/5.jpg" width="50%" />
+<img src="pics/6.jpg" width="50%"/>
