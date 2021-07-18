@@ -1,6 +1,4 @@
-# rhoam-recipes-mobile
-
-# RhoamRecipes
+# RhoamRecipes 🎂 mobile version
 
 An app that intends to help pastry chefs who want to execute recipes on different quantities for production purposes.\
 A React-Native app that connects to a RESTful API built with Express and MongoDB.
