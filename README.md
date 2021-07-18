@@ -11,7 +11,7 @@ A React-Native app that connects to a RESTful API built with Express and MongoDB
 
 You can create a recipe..! After logging in, you can save it in our API and view it for production.
 
-<img src="pics/1.jpg" />
+<img src="pics/1.jpg" width="50%"/>
 
 When you select the recipe in the "View recipes" screen, you can choose to re-calculate (adjust) the ingredient portions based on
 
