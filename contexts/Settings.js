@@ -5,8 +5,8 @@ const SettingsProvider = (props) => {
   // // ----------------------------------------------------------------
   // // -- STATE -------------------------------------------------------
   // // ----------------------------------------------------------------
-  const [apiUrl, setApiUrl] = useState("http://localhost:3001");
-  // const [apiUrl, setApiUrl] = useState("https://quiet-citadel-79746.herokuapp.com");
+  // const [apiUrl, setApiUrl] = useState("http://localhost:3001");
+  const [apiUrl, setApiUrl] = useState("https://quiet-citadel-79746.herokuapp.com");
   const [listOfRecipes, setListOfRecipes] = useState([]);
 
   const [userCredentials, setUserCredentials] = useState({
